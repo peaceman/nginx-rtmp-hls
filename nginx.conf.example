@@ -1,0 +1,36 @@
+worker_processes 1;
+events {}
+
+rtmp {
+    server {
+        listen 2305;
+
+        application ingest {
+            live on;
+            record off;
+
+            on_publish http://rtmp-ctl/on-publish;
+            push rtmp://127.0.0.1:2305/live;
+        }
+
+        application live {
+            live on;
+
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            hls on;
+            hls_path /tmp/hls;
+            hls_fragment 2s;
+        }
+    }
+}
+
+http {
+    server {
+        listen 80;
+        location / {
+            root /tmp/hls;
+        }
+    }
+}

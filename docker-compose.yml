@@ -1,0 +1,20 @@
+x-restart-policy: &restart-policy
+  restart: unless-stopped
+
+version: "2.4"
+services:
+  nginx:
+    image: alqutami/rtmp-hls:latest
+    <<: *restart-policy
+    ports:
+      - "$RTMP_PORT:2305"
+      - "$HTTP_PORT:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+  rtmp-ctl:
+    build: nginx-rtmp-ctl
+    <<: *restart-policy
+    environment:
+      JWT_SIGNING_KEY:
+    volumes:
+      - ./logs:/app/storage/logs
