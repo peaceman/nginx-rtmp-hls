@@ -24,4 +24,4 @@ Payload
 The name configured in Payload is used as public stream name.
 
 M3U8 URL as it would be with the sample payload from above:
-> http://$ip:$HTTP_PORT/live/foobar.m3u8
+> http://$ip:$HTTP_PORT/foobar.m3u8
